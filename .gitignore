@@ -1,0 +1,10 @@
+# .gitignore
+datasets/
+*.npy
+*.csv
+*.pkl
+
+# Virtual environment
+venv/
+.venv/
+env/
