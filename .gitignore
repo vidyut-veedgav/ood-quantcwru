@@ -1,7 +1,6 @@
 # .gitignore
 datasets/
 *.npy
-*.csv
 *.pkl
 
 # Virtual environment
