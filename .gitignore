@@ -2,8 +2,18 @@
 datasets/
 *.npy
 *.pkl
+*.pt
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
 
 # Virtual environment
 venv/
 .venv/
 env/
+
+# IDE
+.vscode/
+.DS_Store
