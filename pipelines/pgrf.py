@@ -25,7 +25,7 @@ import pandas as pd
 import torch
 from sklearn.metrics import roc_auc_score, precision_recall_curve, auc
 
-from data.dataloaders.pgrf_loader import get_entity_dirs
+from methods.pgrf.dataloader import get_entity_dirs
 from methods.pgrf.model import PGRFNet
 from methods.pgrf.training import train_model_stage1, train_model_stage2
 from methods.pgrf.inference import infer_scores
