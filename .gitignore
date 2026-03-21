@@ -1,4 +1,5 @@
 # .gitignore
+build/
 datasets/
 *.npy
 *.pkl
