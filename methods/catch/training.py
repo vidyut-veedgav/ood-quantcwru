@@ -1,36 +1,4 @@
-# methods/catch/training.py
-#
-# Training wrapper for CATCH.
-#
-# WHAT THIS FILE DOES:
-#   Provides train_catch_model(), which takes pre-scaled numpy arrays and a
-#   trained (model, config) pair from model.py and runs CATCH's full training
-#   loop. It is the thinnest possible layer between your pipeline and CATCH's
-#   internal detect_fit() — the training logic itself is untouched.
-#
-# THE SCALER BYPASS:
-#   CATCH's detect_fit() internally fits a StandardScaler on the training data
-#   and transforms both train and validation splits before training. Since your
-#   data is already scaled by preprocess_catch.py, applying a second scaler
-#   would corrupt the values. The bypass works by pre-constructing a
-#   StandardScaler with identity parameters (mean=0, std=1 for every feature)
-#   and assigning it to the CATCH instance before detect_fit() is called.
-#   When detect_fit() calls self.scaler.transform(x), it computes (x-0)/1 = x,
-#   a no-op. No submodule code is modified.
-#
-# WHAT IS KEPT FROM CATCH's detect_fit() UNCHANGED:
-#   - Internal 80/20 train/val split for early stopping
-#   - Two separate optimizers (main model + mask generator)
-#   - OneCycleLR schedulers for both optimizers
-#   - Three-term loss: reconstruction + dc_lambda*dcloss + auxi_lambda*auxi_loss
-#   - EarlyStopping with patience
-#   - Mask generator update cadence (every 10% of batches)
-#
-# WHAT detect_fit() DOES THAT WE BYPASS:
-#   - detect_hyper_param_tune(): infers freq from DataFrame index and rebuilds
-#     the model from scratch. We skip this because model.py already built the
-#     model with correct dimensions, and we handle freq in loader.py.
-#   - StandardScaler fit + transform on train and val data.
+
 
 import os
 import sys

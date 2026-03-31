@@ -1,31 +1,4 @@
-# methods/catch/preprocess_catch.py
-#
-# CATCH-specific preprocessing pipeline.
-#
-# [VS PGRF] This file is intentionally kept as close to
-# data/preprocessing/preprocess_pgrf.py as possible so that both methods
-# receive identically preprocessed data, enabling fair benchmarking.
-#
-# The only functional difference from the PGRF version:
-#   - No first-order differencing. CATCH is a reconstruction-based method
-#     that operates on the raw signal. Differencing is a PGRF-specific
-#     modeling choice and is not applied here (nor in PGRF anymore, as of the
-#     benchmark standardization).
-#
-# Everything else is identical to the PGRF preprocessor:
-#   - StandardScaler fit on train split only
-#   - Test transformed with the same scaler (no leakage)
-#   - Both splits clipped at +-3 sigma
-#   - Output saved as per-entity .npy files
-#
-# Output structure under datasets/processed/catch/:
-#   SMAP/<chan_id>/train.npy, test.npy, test_labels.npy
-#   MSL/<chan_id>/train.npy,  test.npy, test_labels.npy
-#   SMD/<machine_id>/train.npy, test.npy, test_labels.npy
-#   PSM/train.npy, test.npy, test_labels.npy
-#
-# Usage (from repo root):
-#   python methods/catch/preprocess_catch.py
+
 
 import os
 import json

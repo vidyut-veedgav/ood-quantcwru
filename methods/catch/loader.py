@@ -1,34 +1,4 @@
-# methods/catch/loader.py
-#
-# Data loading utilities for the CATCH pipeline.
-#
-# Responsibilities:
-#   1. Locate all preprocessed entity directories for a given dataset
-#      (identical logic to pgrf_loader.py's get_entity_dirs).
-#   2. Load the three .npy arrays for a single entity from disk
-#      (train, test, test_labels).
-#   3. Wrap a raw numpy array in a pd.DataFrame with a synthetic datetime
-#      index so it can be passed into CATCH's internals, which expect that
-#      format. This has no equivalent in pgrf_loader.py — see note below.
-#
-# Why CATCH needs a DataFrame but PGRF does not:
-#   PGRF's pipeline works entirely with numpy arrays and PyTorch tensors.
-#   CATCH's wrapper class (CATCH/ts_benchmark/baselines/catch/CATCH.py) was
-#   originally designed to receive a pd.DataFrame with a real datetime index
-#   because its detect_hyper_param_tune() method calls pd.infer_freq() on
-#   that index to determine the temporal frequency of the data. Rather than
-#   modifying the submodule, we satisfy that expectation by attaching a
-#   synthetic uniform datetime index to the numpy array before passing it in.
-#   The actual data values are unchanged — only the index is synthetic.
-#
-# Windowing note:
-#   Unlike pgrf_loader.py, this file contains NO PyTorch Dataset class and
-#   NO windowing logic. PGRF builds forecast windows (X, Y, L) in its loader
-#   because windowing is central to how PGRF is structured. CATCH handles its
-#   own sliding windows internally via SegLoader, defined in:
-#       CATCH/ts_benchmark/baselines/utils.py  (class SegLoader)
-#   That class is instantiated inside methods/catch/training.py and
-#   methods/catch/inference.py — not here.
+
 
 import os
 import numpy as np
