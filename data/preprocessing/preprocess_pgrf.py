@@ -116,8 +116,17 @@ def _save(out_dir: str, train: np.ndarray, test: np.ndarray, labels: np.ndarray)
 def _process_entity(train_raw: np.ndarray, test_raw: np.ndarray,
                     labels: np.ndarray, out_dir: str, entity_id: str):
     # [ADDED] entirely new helper; original code had no per-entity pipeline.
-    train_diff, test_diff = _difference(train_raw, test_raw)
-    train_final, test_final = _scale_and_clip(train_diff, test_diff)
+
+    # [DIFFERENCING DISABLED] First-order differencing has been commented out to
+    # standardize preprocessing across all methods in this benchmark. CATCH and
+    # future methods operate on the raw (scaled) signal, so differencing is removed
+    # from PGRF to ensure a fair comparison. To re-enable, uncomment the two lines
+    # below and replace train_raw/test_raw with train_diff/test_diff in the
+    # _scale_and_clip call.
+    # train_diff, test_diff = _difference(train_raw, test_raw)
+    # train_final, test_final = _scale_and_clip(train_diff, test_diff)
+
+    train_final, test_final = _scale_and_clip(train_raw, test_raw)
     _save(out_dir, train_final, test_final, labels)
     print(f'  {entity_id}: train={train_final.shape}, '
           f'test={test_final.shape}, '
@@ -230,13 +239,18 @@ def preprocess_psm():
     raw_dir = os.path.join(RAW_BASE, 'PSM')
 
     train_raw = pd.read_csv(os.path.join(raw_dir, 'train.csv')) \
-        .drop(columns=['timestamp_(min)']) \
-        .values.astype(np.float32)
+        .drop(columns=['timestamp_(min)'])
     test_raw = pd.read_csv(os.path.join(raw_dir, 'test.csv')) \
-        .drop(columns=['timestamp_(min)']) \
-        .values.astype(np.float32)
+        .drop(columns=['timestamp_(min)'])
     labels = pd.read_csv(os.path.join(raw_dir, 'test_label.csv'))['label'] \
         .values.astype(np.float32)
+
+    # [ADDED] PSM train has NaNs in 12 columns from sensor dropout in the raw
+    # CSV. Interpolate train only — consistent with how SMD train is handled.
+    # Test NaNs are left as-is since they may represent real missing data.
+    train_raw = train_raw.interpolate(
+        method='linear', limit_direction='both').values.astype(np.float32)
+    test_raw = test_raw.values.astype(np.float32)
 
     # [CHANGED] original _load_psm returned raw arrays; now runs full pipeline.
     out_dir = os.path.join(OUT_BASE, 'PSM')

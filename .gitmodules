@@ -1,0 +1,3 @@
+[submodule "CATCH"]
+	path = CATCH
+	url = git@github.com:decisionintelligence/CATCH.git

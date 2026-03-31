@@ -1,0 +1,4 @@
+{
+  "extraPaths": ["CATCH"],
+  "reportAttributeAccessIssue": "none"
+}
