@@ -3,11 +3,12 @@ from pathlib import Path
 
 SARAD_ROOT = Path(__file__).resolve().parent / "external"
 
-def train(data_dir, dataset="SMD", device="gpu"):
+def train(use_processed, processed_path, dataset="SMD", device="gpu"):
     cmd = [
         "python",
         "src/train.py",
-        f"data.data_dir={data_dir}",
+        f"data.use_processed={use_processed}",
+        f"data.processed_path={processed_path}",
         f"data={dataset}",
         f"trainer={device}",
     ]

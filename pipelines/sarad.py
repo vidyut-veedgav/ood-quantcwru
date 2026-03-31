@@ -9,14 +9,16 @@ def main(args):
     print("[PIPELINE] Running SARAD baseline")
 
     sarad_train(
-        data_dir=args.data_dir,
+        use_processed=args.use_processed,
+        processed_path=args.processed_path,
         dataset=args.dataset,
         device=args.device,
     )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data_dir", type=str, help="Input the full path of the parent directory of where the dataset is included", default="D:\Sreya\Case_Western\OODResearch\ood-quantcwru\datasets\\raw")
+    parser.add_argument("--use_processed", type=bool, default=True)
+    parser.add_argument("--processed_path", type=str, help="Input the full path of the parent directory of where the dataset is included", default="D:\Sreya\Case_Western\OODResearch\ood-quantcwru\datasets\\raw")
     parser.add_argument("--dataset", type=str, default="SMD")
     parser.add_argument("--device", type=str, default="gpu")
 
