@@ -1,0 +1,10 @@
+_target_: undefined
+data_dir: ${paths.data_dir}
+window_size: 100
+batch_size: 128
+num_workers: 0
+pin_memory: False
+
+raw_data_dir: D:\Sreya\Case_Western\OODResearch\ood-quantcwru\datasets\raw\SMD
+use_processed: false
+processed_path: null

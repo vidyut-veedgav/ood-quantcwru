@@ -12,12 +12,30 @@ def preprocess():
     test_df  = pd.read_csv(f'{RAW_DIR}/test.csv')
     label_df = pd.read_csv(f'{RAW_DIR}/test_label.csv')
 
+    # # Drop timestamp column — not a feature
+    # train = train_df.drop(columns=['timestamp_(min)']).values.astype(np.float32)
+    # test  = test_df.drop(columns=['timestamp_(min)']).values.astype(np.float32)
+
+    # # Extract label column as flat array
+    # labels = label_df['label'].values.astype(np.float32)
+
     # Drop timestamp column — not a feature
     train = train_df.drop(columns=['timestamp_(min)']).values.astype(np.float32)
     test  = test_df.drop(columns=['timestamp_(min)']).values.astype(np.float32)
 
     # Extract label column as flat array
     labels = label_df['label'].values.astype(np.float32)
+
+    # Fix NaNs BEFORE scaling
+    print("NaNs before fix (train):", np.isnan(train).sum())
+    print("NaNs before fix (test):", np.isnan(test).sum())
+
+    # Compute column means from TRAIN ONLY
+    col_means = np.nanmean(train, axis=0)
+
+    # Fill train NaNs
+    inds = np.where(np.isnan(train))
+    train[inds] = np.take(col_means, inds[1])
 
     # Fit scaler on train only
     scaler = StandardScaler()
