@@ -1,29 +1,4 @@
-# methods/catch/model.py
-#
-# Submodule bridge and model construction wrapper for CATCH.
-#
-# WHAT THIS FILE DOES:
-#   1. Adds the CATCH submodule to sys.path so Python can resolve imports
-#      from ts_benchmark.* — this is the "submodule bridge".
-#   2. Exposes build_catch_model(), a single function that takes data
-#      dimensions and hyperparameters and returns a ready-to-train
-#      (CATCHModel, TransformerConfig) pair.
-#
-# WHY A WRAPPER IS NEEDED:
-#   CATCHModel (defined in CATCH/ts_benchmark/baselines/catch/models/CATCH_model.py)
-#   cannot be instantiated with a plain dict of hyperparameters. It requires a
-#   TransformerConfig object (defined in CATCH/ts_benchmark/baselines/catch/CATCH.py).
-#   That config must also have several data-dependent fields set — enc_in, c_in,
-#   c_out, seq_len — which are not known until runtime when we know the actual
-#   number of variables in the entity being processed. This wrapper handles both
-#   the config construction and the data-dependent field assignment in one place,
-#   so training.py and pipelines/catch.py never need to touch the submodule
-#   directly.
-#
-# SUBMODULE BRIDGE:
-#   The sys.path.insert below is the only line in the entire methods/catch/
-#   package that knows where the submodule lives on disk. Everything else imports
-#   through normal Python module names once the path is in place.
+
 
 import os
 import sys
