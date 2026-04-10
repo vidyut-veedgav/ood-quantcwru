@@ -61,7 +61,7 @@ def train_model_stage1(model, X_train, Y_train, L_train, **train_params):
     print("--- Starting Stage 1 Training: Multi-faceted Evidence Extractor ---")
     for epoch in tqdm(range(train_params.get('epochs_stage1', 50)), desc="Stage 1 Epochs", leave=False):
         model.train()
-        for batch_X, batch_Y, batch_L in train_loader:
+        for batch_X, batch_Y, batch_L in tqdm(train_loader, desc=f"  Epoch {epoch+1} batches", leave=False):
             if next(model.parameters()).is_cuda:
                 batch_X, batch_Y, batch_L = batch_X.cuda(), batch_Y.cuda(), batch_L.cuda()
 

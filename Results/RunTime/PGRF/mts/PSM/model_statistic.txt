@@ -1,0 +1,1 @@
+PGRF-Net — model summary unavailable before training (num_vars is data-dependent).
