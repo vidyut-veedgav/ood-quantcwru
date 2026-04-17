@@ -1,6 +1,7 @@
 import time
 from typing import Any, Dict, Tuple
 import numpy as np
+import os
 
 import torch
 from lightning import LightningModule
@@ -336,6 +337,11 @@ class SAR76Module(LightningModule):
         diagno = np.concatenate(self.test_diagno)
         recon_diagno = np.concatenate(self.test_recon_diagno)
         detec_diagno = np.concatenate(self.test_detec_diagno)
+
+        save_path = os.path.join(self.hparams.output_dir, "scores.npy")
+        np.save(save_path, scores)
+
+        print(f"[SARAD] Saved scores to {save_path}")
         
         print(f'Elapsed time: {(time.time() - self.start_time)/60:.2f} mins')
         print(f'Inference per sample: {(time.time() - self.start_time)/len(scores)*1e3:.2f}')
